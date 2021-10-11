@@ -1,0 +1,83 @@
+#include <stdio.h>
+void matreshka(int n) {
+	static int k = n;
+	if (!n) {
+		for (int i = 0; i < k - n; i++)printf(" "); 
+		printf("matreshechkaka %d\n", n);
+		return;
+	}
+	for (int i = 0; i < k - n; i++)printf(" ");
+	printf("up matreshka %d\n", n);
+
+	matreshka(n - 1);
+
+	for (int i = 0; i < k - n; i++)printf(" ");
+	printf("top matreshka %d\n", n);
+}
+
+int fact(int n) {
+	static int k = n;
+	int f = 1;
+	if (n == 1) {
+		for (int i = 0; i < k - n; i++)printf(" ");
+		printf("%d\n", n);
+		return 1;
+	}
+	for (int i = 0; i < k - n; i++)printf(" ");
+	printf("%d\n", n);
+	f= n * fact(n - 1);
+	for (int i = 0; i < k - n; i++)printf(" ");
+	printf("%d\n", f);
+	return f;// n* fact(n - 1);
+}
+
+int repkaSimple(int n)
+{
+	//сила  = 2^index;
+	static int k = n;
+	if (!n) {
+		return 1;
+	}
+	int f = (1 << n) + repkaSimple(n - 1);
+	if (f == (1 << (k + 1)) - 1) printf("\n repka is over\n");
+	return f;
+
+}
+
+
+
+
+int repka(int n) 
+{
+	//сила  = 2^index. Суммарная сила всех участников процесса вытаскивания должна быть равн 63 
+
+	static const char* person[6] = { "mouse","koshka","guchka","vnuchka","babka","dedka" };
+	static int k = n;
+	unsigned char sila;
+
+	if (!n) {
+		for (int i = 0; i < k - n; i++)printf(" ");
+		printf("%s  sila=1  n=%d   \n",person[n],n); 
+		return 1;
+	}
+	for (int i = 0; i < k - n; i++)printf(" ");
+	printf("%s n=%d\n", person[n],n);
+
+	sila = (1 << n)+repka(n - 1);
+
+	for (int i = 0; i < k - n; i++)printf(" ");
+	printf("%s  sila=%d n= %d\n",person[n],sila,n);
+	
+	if (sila == (1 << (k + 1)) - 1)  printf("\nrepka is over\n");
+
+	return sila;
+
+}
+int main()
+{
+	//matreshka(8);
+	//int y = fact(7);
+	int s = 1;
+	int y = repkaSimple(6);
+	printf("\n%d\n", y);
+}
